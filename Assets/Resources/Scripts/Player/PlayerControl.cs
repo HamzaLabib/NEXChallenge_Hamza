@@ -9,13 +9,11 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] float jumpForce = 8f;
     [SerializeField] float rotationSpeed = 5f;
     [SerializeField] float minimumRotationSpeed = 0.1f;
-    [SerializeField] Canvas windowUI;
-    [SerializeField] Transform enemy;
-    [SerializeField] AudioSource deathAudio;
+    [SerializeField] GameObject windowUI;
     #endregion
 
     #region Private Fields
-    private bool isAlive;
+    [HideInInspector] public bool isAlive;
     private bool isGrounded;
     private Rigidbody rb;
     private Camera mainCamera;
@@ -65,7 +63,7 @@ public class PlayerControl : MonoBehaviour
         right.Normalize();
 
         Vector3 movement = (forward * vertical + right * horizontal).normalized * speed;
-        
+
         if (movement.magnitude > 0)
             rb.MovePosition(rb.position + movement * Time.deltaTime);
     }
@@ -104,32 +102,13 @@ public class PlayerControl : MonoBehaviour
     }
     #endregion
 
-    #region Death Handling & Activate End Game Menu 
-    private void Die()
-    {
-        deathAudio.Play();
-        isAlive = false;
-        windowUI.gameObject.SetActive(true);
-        Destroy(gameObject);
-    }
-    #endregion
-
-    #region Collision Handling
+    #region Jump Handling
     private void OnCollisionEnter(Collision other)
     {
         #region Handle Jumping
         if (other.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
-        }
-        #endregion
-
-        #region Handle Death
-        if (other.gameObject.CompareTag("EnemyBullet") || other.gameObject.CompareTag("Finish"))
-        {
-            Die();
-            this.GetComponent<PlayerAttack>().enabled = false;
-            enemy.GetComponent<EnemyControl>().isAlive = false;
         }
         #endregion
     }

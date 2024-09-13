@@ -78,7 +78,7 @@ public class EnemyControl : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * attackForce, ForceMode.Impulse);
-        Destroy(bullet, 2f);
+        Destroy(bullet, 1f);
     }
     #endregion
     #endregion

@@ -43,7 +43,7 @@ public class PlayerAttack : MonoBehaviour
             // Apply force to the bullet in the direction it is facing
             rb.AddForce(rb.transform.forward * attackForce, ForceMode.Impulse);
 
-            Destroy(bullet, 2.0f);
+            Destroy(bullet, 1f);
         }
     }
     #endregion
