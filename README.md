@@ -37,10 +37,8 @@ Update(): Checks for player input to perform movement and rotation actions.
 KeyboardMovement(): Handles horizontal and vertical movement based on player input using the WASD or arrow keys.
 Jump(): Manages the player's ability to jump when the jump key is pressed and the player is grounded.
 RotateToMouseCursor(): Rotates the player to face the direction of the mouse cursor.
-Die(): Disables player controls and triggers the end-game UI when the player dies.
 
 Interactions:
-Interacts with GameManager to notify it of player death.
 Uses Unity's Input class to listen for key and mouse inputs.
 Interacts with Rigidbody for physics-based movement.
 
@@ -55,7 +53,12 @@ Interactions:
 Uses Camera to calculate the shooting direction.
 Interacts with the Rigidbody component of the bullet prefab to apply physics-based force.
 
-C- EnemyControl
+C- PlayerHealth
+Purpose: Manages the player's health, processes damage taken, and handles death.
+
+Inherits from "HealthControl"
+
+D- EnemyControl
 Purpose: Controls enemy behavior, including movement towards the player, rotation to face the player, and handling attack sequences.
 
 Major Methods:
@@ -68,16 +71,21 @@ Interactions:
 Directly interacts with the Transform component of the player to orient and move towards the player.
 Uses serialized fields to customize behavior such as speed and attack range.
 
-D- EnemyHealth
+E- EnemyHealth
 Purpose: Manages the enemy's health, processes damage taken, and handles enemy death.
 
+Inherits from "HealthControl"
+
+F- HealthControl
+Purpose: Manages the health logic, processes damage taken, and handles death logic.
+
 Major Methods:
-TakeDamage(int damage): Reduces the health of the enemy by a specified amount and calls Die() if health falls below zero.
-Die(): Disables the enemy game object and possibly triggers other game effects like spawning a death effect.
+TakeDamage(int damage): Reduces the health of the child by a specified amount and calls Die() if health falls below zero.
+Die(): Disables the child game object, controls and possibly triggers other game effects like spawning a death effect then triggers the end-game UI.
 
 Interactions:
 Interacts with other objects (like bullets) through collision detection.
-Could interact with GameManager or other scripts to report enemy death for scorekeeping or game state changes.
+Could interact with GameManager or other scripts to report enemy/player death for scorekeeping or game state changes.
 
 E- GameManager
 Purpose:Manages the overall game state, including scene transitions, and handles player win/lose conditions.
@@ -99,6 +107,7 @@ Assets/Prefabs: List and describe all prefabs used.
 Assets/Scenes: Include all scenes by name and their purpose.
 Assets/Materials: Outline any materials used for visual effects.
 Assets/Audio: Detail background music and any sound effects.
+Assets/Scripts: Contains sub folders for Managers, Player and Enemy scripts
 
 
 
@@ -130,4 +139,3 @@ J- Asset Bundle.
 
 Yours,
 Hamza Labib
- 
